@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { UserService } from '../user/user.service';
+import * as argon2 from 'argon2';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { TokenService } from 'src/token/token.service';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(
+    private readonly userService: UserService,
+    private readonly tokenService: TokenService,
+  ) {}
+
+  async registerUsers(dto: CreateAuthDto): Promise<CreateAuthDto> {
+    const { email } = dto;
+    const existUser = await this.userService.findOne(email);
+    if (existUser)
+      throw new BadRequestException(`User ${dto.email} already exists`);
+    return this.userService.createUser(dto);
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async login(email: string, password: string) {
+    const user = await this.userService.findOne(email);
+    const isPasswordMatch = await argon2.verify(user.password, password);
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    if (user && isPasswordMatch) {
+      const { password, transactions, categories, ...result } = user;
+      const token = await this.tokenService.generateJwtToken({
+        email,
+        password,
+      });
+      return { user: result, token };
+    }
+    throw new UnauthorizedException('user email or password mismatch');
   }
 }

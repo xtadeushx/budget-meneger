@@ -27,7 +27,7 @@ export class User {
   transactions: Transaction[];
 
   @CreateDateColumn()
-  CreateAt: Date;
+  createAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;

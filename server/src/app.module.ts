@@ -8,6 +8,9 @@ import { TransactionModule } from './transaction/transaction.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from './config/configuration';
+import { AuthController } from './auth/auth.controller';
+import { UserController } from './user/user.controller';
+import { TokenModule } from './token/token.module';
 
 @Module({
   imports: [
@@ -33,8 +36,9 @@ import configuration from './config/configuration';
       }),
       inject: [ConfigService],
     }),
+    TokenModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, AuthController, UserController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -9,29 +9,32 @@ import * as argon2 from 'argon2';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(dto: CreateUserDto) {
-    const existUser = await this.usersRepository.findOne({
+  async createUser(dto: CreateUserDto) {
+    const existUser = await this.userRepository.findOne({
       where: { email: dto.email },
     });
     console.log('exist', existUser);
     if (existUser)
       throw new BadRequestException(`User ${dto.email} already exists`);
-    const user = await this.usersRepository.save({
+    const user = await this.userRepository.save({
       email: dto.email,
       password: await argon2.hash(dto.password),
     });
     return user;
   }
 
-  async findOne(id: number) {
-    const existUser = await this.usersRepository.findOne({
-      where: { id },
+  async findOne(email: string) {
+    const existUser = await this.userRepository.findOne({
+      where: { email },
     });
-    if (!existUser)
-      throw new BadRequestException(`User with id ${id} does not exists`);
     return existUser;
+  }
+
+  async deleteUser(email: string): Promise<string> {
+    await this.userRepository.delete({ email: email });
+    return `user with email  ${email} was deleted`;
   }
 }

@@ -3,13 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  ValidationPipe,
+  UsePipes,
   Param,
-  Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
@@ -17,20 +16,16 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
   @ApiTags('API')
   @ApiResponse({
     status: 201,
     description: 'The record has been successfully created.',
+    type: CreateUserDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
-  }
-
-  @Get()
-  @ApiTags('API')
-  findAll() {
-    return this.userService.findAll();
   }
 
   @Get(':id')
@@ -39,15 +34,9 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Get('hello')
   @ApiTags('API')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  @ApiTags('API')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  find() {
+    return 'Hello';
   }
 }

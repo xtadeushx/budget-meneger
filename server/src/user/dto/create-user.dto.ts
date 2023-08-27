@@ -8,6 +8,6 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsString()
-  @MinLength(6, { message: 'password must be more than 6 symbols' })
+  @MinLength(4, { message: 'password must be more than 6 symbols' })
   password: string;
 }

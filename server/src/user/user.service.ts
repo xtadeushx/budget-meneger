@@ -1,26 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
+
+  async create(dto: CreateUserDto) {
+    const existUser = await this.usersRepository.findOne({
+      where: { email: dto.email },
+    });
+    console.log('exist', existUser);
+    if (existUser)
+      throw new BadRequestException(`User ${dto.email} already exists`);
+    const user = await this.usersRepository.save({
+      email: dto.email,
+      password: await argon2.hash(dto.password),
+    });
+    return user;
   }
 
-  findAll() {
-    return `This action returns all user`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async findOne(id: number) {
+    const existUser = await this.usersRepository.findOne({
+      where: { id },
+    });
+    if (!existUser)
+      throw new BadRequestException(`User with id ${id} does not exists`);
+    return existUser;
   }
 }

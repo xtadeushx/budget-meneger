@@ -28,12 +28,15 @@ export class AuthService {
     const isPasswordMatch = await argon2.verify(user.password, password);
 
     if (user && isPasswordMatch) {
-      const { password, transactions, categories, ...result } = user;
       const token = await this.tokenService.generateJwtToken({
         email,
         password,
       });
-      return { user: result, token };
+      const publicUser = {
+        id: user.id,
+        email: user.email,
+      };
+      return { user: publicUser, token };
     }
     throw new UnauthorizedException('user email or password mismatch');
   }

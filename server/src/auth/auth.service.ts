@@ -6,15 +6,15 @@ import {
 import { UserService } from '../user/user.service';
 import * as argon2 from 'argon2';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { TokenService } from 'src/token/token.service';
 import { ExceptionMessage } from 'src/common/enums/enums';
 import { ResponseAuthUserDto } from './dto/response-auth.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private readonly tokenService: TokenService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async registerUsers(dto: CreateAuthDto): Promise<CreateAuthDto> {
@@ -30,7 +30,7 @@ export class AuthService {
     const isPasswordMatch = await argon2.verify(user.password, password);
 
     if (user && isPasswordMatch) {
-      const token = await this.tokenService.generateJwtToken({
+      const token = await this.jwtService.signAsync({
         email,
         password,
       });

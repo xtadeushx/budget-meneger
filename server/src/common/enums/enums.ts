@@ -3,7 +3,7 @@ export { ExceptionName, ExceptionMessage } from './exception/exception';
 export {
   ApiPath,
   AuthApiPath,
-  NotesApiPath,
+  CategoryApiPath,
+  TransactionApiPath,
   UsersApiPath,
-  PasswordApiPath,
 } from './api/api';

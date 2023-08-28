@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon2 from 'argon2';
+import { ExceptionMessage } from 'src/common/enums/enums';
 
 @Injectable()
 export class UserService {
@@ -16,9 +17,8 @@ export class UserService {
     const existUser = await this.userRepository.findOne({
       where: { email: dto.email },
     });
-    console.log('exist', existUser);
     if (existUser)
-      throw new BadRequestException(`User ${dto.email} already exists`);
+      throw new BadRequestException(ExceptionMessage.EMAIL_ALREADY_EXISTS);
     const user = await this.userRepository.save({
       email: dto.email,
       password: await argon2.hash(dto.password),
@@ -26,7 +26,7 @@ export class UserService {
     return user;
   }
 
-  async findOne(email: string) {
+  async findOne(email: string): Promise<User> {
     const existUser = await this.userRepository.findOne({
       where: { email },
     });
@@ -35,6 +35,6 @@ export class UserService {
 
   async deleteUser(email: string): Promise<string> {
     await this.userRepository.delete({ email: email });
-    return `user with email  ${email} was deleted`;
+    return `user with email ${email} was deleted`;
   }
 }

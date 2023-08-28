@@ -22,7 +22,7 @@ export class AuthController {
 
   @ApiTags('API')
   @UseGuards(LocalAuthGuard)
-  @Post(AuthApiPath.REGISTER)
+  @Post(AuthApiPath.LOGIN)
   @ApiResponse({
     status: HttpCode.OK,
     type: ResponseAuthUserDto,

@@ -1,19 +1,19 @@
-import { Controller, Post, UseGuards, Req, Body } from '@nestjs/common';
+import { Controller, Post, UseGuards, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthUserResponseDto } from './dto/response-auth.dto';
+import { ResponseAuthUserDto } from './dto/response-auth.dto';
+import { ApiPath, AuthApiPath, HttpCode } from 'src/common/enums/enums';
 
-@Controller('auth')
+@Controller(ApiPath.AUTH)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @ApiTags('API')
-  @Post('register')
+  @Post(AuthApiPath.REGISTER)
   @ApiResponse({
-    status: 201,
+    status: HttpCode.CREATED,
     type: CreateAuthDto,
   })
   async register(@Body() dto: CreateAuthDto): Promise<CreateAuthDto> {
@@ -22,13 +22,12 @@ export class AuthController {
 
   @ApiTags('API')
   @UseGuards(LocalAuthGuard)
-  @Post('login')
+  @Post(AuthApiPath.REGISTER)
   @ApiResponse({
-    status: 201,
-    description: 'The record has been successfully created.',
-    type: AuthUserResponseDto,
+    status: HttpCode.OK,
+    type: ResponseAuthUserDto,
   })
-  async login(@Body() dto: CreateAuthDto): Promise<any> {
+  async login(@Body() dto: CreateAuthDto): Promise<ResponseAuthUserDto> {
     const { email, password } = dto;
     return await this.authService.login(email, password);
   }

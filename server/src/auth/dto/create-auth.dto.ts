@@ -8,6 +8,6 @@ export class CreateAuthDto {
 
   @ApiProperty({ example: 'test' })
   @IsString()
-  @MinLength(4, { message: 'password must be more than 6 symbols' })
+  @MinLength(4, { message: 'password must be more than 4 symbols' })
   password: string;
 }

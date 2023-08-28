@@ -37,4 +37,9 @@ export class UserService {
     await this.userRepository.delete({ email: email });
     return `user with email ${email} was deleted`;
   }
+
+  async updateUser(email: string, dto: CreateUserDto) {
+    this.userRepository.update(dto, { email: email });
+    return dto;
+  }
 }

@@ -1,4 +1,11 @@
-import { Controller, Post, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Body,
+  ValidationPipe,
+  UsePipes,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateAuthDto } from './dto/create-auth.dto';
@@ -12,6 +19,7 @@ export class AuthController {
 
   @ApiTags('API')
   @Post(AuthApiPath.REGISTER)
+  @UsePipes(new ValidationPipe())
   @ApiResponse({
     status: HttpCode.CREATED,
     type: CreateAuthDto,
@@ -23,6 +31,7 @@ export class AuthController {
   @ApiTags('API')
   @UseGuards(LocalAuthGuard)
   @Post(AuthApiPath.LOGIN)
+  @UsePipes(new ValidationPipe())
   @ApiResponse({
     status: HttpCode.OK,
     type: ResponseAuthUserDto,

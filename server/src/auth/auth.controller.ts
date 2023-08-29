@@ -5,6 +5,9 @@ import {
   Body,
   ValidationPipe,
   UsePipes,
+  Req,
+  Get,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -12,6 +15,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { ResponseAuthUserDto } from './dto/response-auth.dto';
 import { ApiPath, AuthApiPath, HttpCode } from 'src/common/enums/enums';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller(ApiPath.AUTH)
 export class AuthController {
@@ -29,15 +33,21 @@ export class AuthController {
   }
 
   @ApiTags('API')
-  @UseGuards(LocalAuthGuard)
   @Post(AuthApiPath.LOGIN)
   @UsePipes(new ValidationPipe())
   @ApiResponse({
     status: HttpCode.OK,
     type: ResponseAuthUserDto,
   })
-  async login(@Body() dto: CreateAuthDto): Promise<ResponseAuthUserDto> {
+  async login(@Body() dto: CreateAuthDto) {
     const { email, password } = dto;
     return await this.authService.login(email, password);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Req() req) {
+    console.log(req.user);
+    return req.user;
   }
 }

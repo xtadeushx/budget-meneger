@@ -43,11 +43,4 @@ export class AuthController {
     const { email, password } = dto;
     return await this.authService.login(email, password);
   }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Req() req) {
-    console.log(req.user);
-    return req.user;
-  }
 }

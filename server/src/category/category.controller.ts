@@ -10,6 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
   Req,
+  Res,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -18,8 +19,7 @@ import { ApiPath, HttpCode } from 'src/common/enums/enums';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseCategoryDto } from './dto/response-category.dto';
-import { JwtStrategy } from '../auth/strategies/jwt.strategy';
-import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
+import { Category } from './entities/category.entity';
 
 @Controller(ApiPath.CATEGORY)
 export class CategoryController {
@@ -40,8 +40,13 @@ export class CategoryController {
   @ApiTags('API')
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.categoryService.findAll();
+  @ApiResponse({
+    status: HttpCode.CREATED,
+    type: ResponseCategoryDto,
+  })
+  findAll(@Req() req): Promise<Category[]> {
+    const { id } = req.user;
+    return this.categoryService.findAll(id);
   }
 
   @ApiTags('API')

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Repository } from 'typeorm';
@@ -35,19 +39,51 @@ export class CategoryService {
     return newCategory;
   }
 
-  findAll() {
-    return `This action returns all category`;
+  async findAll(id: number) {
+    return await this.categoryRepository.find({
+      where: { user: { id } },
+      relations: {
+        transactions: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number) {
+    const existCategory = await this.categoryRepository.findOne({
+      where: { id },
+      relations: {
+        user: true,
+        transactions: true,
+      },
+    });
+    if (!existCategory)
+      throw new NotFoundException(ExceptionMessage.CATEGORY_NOT_EXISTS);
+    return existCategory;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    const existCategory = await this.categoryRepository.findOne({
+      where: { id },
+      relations: {
+        user: true,
+        transactions: true,
+      },
+    });
+    if (!existCategory)
+      throw new NotFoundException(ExceptionMessage.CATEGORY_NOT_EXISTS);
+    return await this.categoryRepository.update(id, updateCategoryDto);
   }
 
   async remove(id: number): Promise<string> {
+    const existCategory = await this.categoryRepository.findOne({
+      where: { id },
+      relations: {
+        user: true,
+        transactions: true,
+      },
+    });
+    if (!existCategory)
+      throw new NotFoundException(ExceptionMessage.CATEGORY_NOT_EXISTS);
     await this.categoryRepository.delete({ id: id });
     return `The category with #${id} was removed`;
   }

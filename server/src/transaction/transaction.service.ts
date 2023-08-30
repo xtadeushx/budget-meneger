@@ -17,6 +17,7 @@ export class TransactionService {
     @InjectRepository(Transaction)
     private readonly transactionRepository: Repository<Transaction>,
   ) {}
+
   async create(
     createTransactionDto: CreateTransactionDto,
     id: number,
@@ -88,5 +89,20 @@ export class TransactionService {
       throw new NotFoundException(ExceptionMessage.TRANSACTION_NOT_EXISTS);
     await this.transactionRepository.delete({ id: id });
     return `The category with #${id} was removed`;
+  }
+
+  async findAllWithPagination(id: number, page: number, limit: number) {
+    const transactions = await this.transactionRepository.find({
+      where: {
+        user: { id },
+      },
+      relations: {
+        category: true,
+        user: true,
+      },
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+    return transactions;
   }
 }

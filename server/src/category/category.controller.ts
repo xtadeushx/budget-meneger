@@ -20,8 +20,9 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseCategoryDto } from './response/crate-category.dto';
 import { Category } from './entities/category.entity';
 import { RemoveCategoryDto } from './response/remove-category.dto';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
-@Controller(ApiPath.CATEGORY)
+@Controller(ApiPath.CATEGORIES)
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
@@ -50,15 +51,15 @@ export class CategoryController {
   }
 
   @ApiTags('API')
-  @Get(':id')
-  @UseGuards(JwtAuthGuard)
+  @Get(':type/:id')
+  @UseGuards(JwtAuthGuard, AuthGuard)
   findOne(@Param('id') id: string) {
     return this.categoryService.findOne(+id);
   }
 
   @ApiTags('API')
-  @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @Patch(':type/:id')
+  @UseGuards(JwtAuthGuard, AuthGuard)
   @UsePipes(new ValidationPipe())
   @ApiResponse({
     status: HttpCode.OK,
@@ -72,8 +73,8 @@ export class CategoryController {
   }
 
   @ApiTags('API')
-  @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @Delete(':type/:id')
+  @UseGuards(JwtAuthGuard, AuthGuard)
   @ApiResponse({
     status: HttpCode.OK,
     type: RemoveCategoryDto,

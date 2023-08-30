@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import { Category } from './entities/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExceptionMessage } from 'src/common/enums/enums';
-import { ResponseCategoryDto } from './dto/response-category.dto';
+import { ResponseCategoryDto } from './response/crate-category.dto';
 
 @Injectable()
 export class CategoryService {

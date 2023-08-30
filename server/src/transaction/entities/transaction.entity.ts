@@ -35,7 +35,7 @@ export class Transaction {
   category: Category;
 
   @CreateDateColumn()
-  CreateAt: Date;
+  createAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;

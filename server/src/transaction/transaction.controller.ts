@@ -7,10 +7,10 @@ import {
   Param,
   Delete,
   UseGuards,
-  Res,
   UsePipes,
   ValidationPipe,
   Req,
+  Query,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
@@ -18,7 +18,7 @@ import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HttpCode } from 'src/common/enums/http/http-code';
-import { ApiPath } from 'src/common/enums/enums';
+import { ApiPath, TransactionApiPath } from 'src/common/enums/enums';
 import { ResponseCreateTransactionDto } from './response/create-transaction.dto';
 
 @Controller(ApiPath.TRANSACTION)
@@ -39,6 +39,21 @@ export class TransactionController {
   ): Promise<ResponseCreateTransactionDto> {
     const { id } = req.user;
     return this.transactionService.create(createTransactionDto, +id);
+  }
+
+  @ApiTags('API')
+  @Get(TransactionApiPath.PAGINATION)
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({
+    status: HttpCode.OK,
+  })
+  findAllWithPagination(
+    @Req() req,
+    @Query('page') page = 1,
+    @Query('limit') limit = 3,
+  ) {
+    const { id } = req.user;
+    return this.transactionService.findAllWithPagination(+id, +page, +limit);
   }
 
   @ApiTags('API')

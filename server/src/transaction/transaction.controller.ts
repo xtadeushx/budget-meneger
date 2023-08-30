@@ -20,8 +20,9 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HttpCode } from 'src/common/enums/http/http-code';
 import { ApiPath, TransactionApiPath } from 'src/common/enums/enums';
 import { ResponseCreateTransactionDto } from './response/create-transaction.dto';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
-@Controller(ApiPath.TRANSACTION)
+@Controller(ApiPath.TRANSACTIONS)
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
@@ -39,6 +40,16 @@ export class TransactionController {
   ): Promise<ResponseCreateTransactionDto> {
     const { id } = req.user;
     return this.transactionService.create(createTransactionDto, +id);
+  }
+  @ApiTags('API')
+  @Get(':type/find')
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({
+    status: HttpCode.OK,
+  })
+  findAllByType(@Req() req, @Param('type') type: string) {
+    const { id } = req.user;
+    return this.transactionService.findAllByType(+id, type);
   }
 
   @ApiTags('API')
@@ -68,8 +79,8 @@ export class TransactionController {
   }
 
   @ApiTags('API')
-  @Get(':id')
-  @UseGuards(JwtAuthGuard)
+  @Get(':type/:id')
+  @UseGuards(JwtAuthGuard, AuthGuard)
   @ApiResponse({
     status: HttpCode.OK,
   })
@@ -78,8 +89,8 @@ export class TransactionController {
   }
 
   @ApiTags('API')
-  @UseGuards(JwtAuthGuard)
-  @Patch(':id')
+  @UseGuards(JwtAuthGuard, AuthGuard)
+  @Patch(':type/:id')
   @UsePipes(new ValidationPipe())
   @ApiResponse({
     status: HttpCode.OK,
@@ -92,8 +103,8 @@ export class TransactionController {
   }
 
   @ApiTags('API')
-  @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @Delete(':type/:id')
+  @UseGuards(JwtAuthGuard, AuthGuard)
   @ApiResponse({
     status: HttpCode.OK,
   })

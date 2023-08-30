@@ -1,8 +1,8 @@
 enum ApiPath {
   AUTH = 'auth',
-  CATEGORY = 'category',
+  CATEGORIES = 'categories',
   USER = 'user',
-  TRANSACTION = 'transaction',
+  TRANSACTIONS = 'transactions',
 }
 
 export { ApiPath };

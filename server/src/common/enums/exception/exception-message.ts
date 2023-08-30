@@ -8,6 +8,7 @@ enum ExceptionMessage {
   USERNAME_ALREADY_EXISTS = 'Username is already taken.',
   USERNAME_NOT_EXISTS = 'Username does not exist.',
   CATEGORY_NOT_EXISTS = 'Category does not exist.',
+  TRANSACTION_NOT_EXISTS = 'Transaction does not exist.',
   USERNAME_NOT_REGISTER = 'User with such email does not register yet.',
 }
 

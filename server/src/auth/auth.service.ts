@@ -27,12 +27,14 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<ResponseAuthUserDto> {
     const user = await this.userService.findOne(email);
+    if (!user)
+      throw new UnauthorizedException(ExceptionMessage.PASSWORDS_NOT_MATCH);
     const isPasswordMatch = await argon2.verify(user.password, password);
-
     if (user && isPasswordMatch) {
       const token = await this.jwtService.signAsync({
         email,
         password,
+        id: user.id,
       });
       const publicUser = {
         id: user.id,

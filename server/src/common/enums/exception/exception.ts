@@ -1,4 +1,2 @@
-export {
-  ExceptionMessage,
-  ExceptionName,
-} from '../../../../../shared/enums/exception/exception';
+export { ExceptionMessage } from './exception-message';
+export { ExceptionName } from './exception-name';

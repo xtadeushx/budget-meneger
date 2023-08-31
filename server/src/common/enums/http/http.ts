@@ -1,1 +1,1 @@
-export { HttpCode } from '../../../../../shared/enums/http/http';
+export { HttpCode } from './http-code';

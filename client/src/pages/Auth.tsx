@@ -22,12 +22,23 @@ const Auth: React.FC = () => {
     }
   }
 
+  const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      console.log('login')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      const error = err.response?.data.message
+      toast.error(error?.toString());
+    }
+  }
+
   return (
     < div className='mt-40 flex flex-col justify-center items-center bg-slate-900 text-white' >
       <h1 className='text-center text-xl mb-10'>
         {isLogin ? 'Login' : 'Registration'}
       </h1>
-      <form className='w-1/3 flex flex-col mx-auto gap-5' onSubmit={registrationHandler}>
+      <form className='w-1/3 flex flex-col mx-auto gap-5' onSubmit={isLogin ? loginHandler : registrationHandler}>
         <input
           type="email"
           name="email"

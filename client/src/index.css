@@ -22,7 +22,7 @@
   }
 
   .input {
-    @apply bg-transparent border bg-slate-700 placeholder: text-white border-slate-800 rounded-md outline-none focus:border-slate-300;
+    @apply bg-transparent border bg-slate-700 border-slate-800 rounded-md outline-none;
   }
 
   .container {
@@ -32,10 +32,10 @@
 
 @layer utilities {
   .btn-red {
-    @apply bg-red-900 hover: bg-rose-800;
+    @apply bg-red-900;
   }
 
   .btn-green {
-    @apply bg-green-600 hover: bg-green-800;
+    @apply bg-green-600;
   }
 }

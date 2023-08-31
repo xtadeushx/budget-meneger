@@ -1,21 +1,15 @@
 import {
   Controller,
   Post,
-  UseGuards,
   Body,
   ValidationPipe,
   UsePipes,
-  Req,
-  Get,
-  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 import { ResponseAuthUserDto } from './dto/response-auth.dto';
 import { ApiPath, AuthApiPath, HttpCode } from 'src/common/enums/enums';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller(ApiPath.AUTH)
 export class AuthController {

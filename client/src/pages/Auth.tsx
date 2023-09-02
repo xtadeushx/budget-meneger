@@ -25,7 +25,9 @@ const Auth: React.FC = () => {
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      console.log('login')
+      const data = await authService.login({ email, password })
+      if (!data) throw new Error(ExceptionMessage.INCORRECT_EMAIL)
+      toast.success(' Successfully login')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const error = err.response?.data.message

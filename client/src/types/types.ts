@@ -3,12 +3,15 @@ export interface IUserData {
   password: string;
 }
 
-export interface IResponseUserData {
-  email: string | undefined;
-  password: string | undefined;
-  createAt: string | undefined;
-  updatedAt: string | undefined;
-  _v?: string | undefined;
-  _id?: string | undefined;
-  message: string | undefined;
+export interface IResponseRegisterUserData {
+  email: string;
+  password: string;
+  createAt: string;
+  updatedAt: string;
+  id: string;
+}
+
+export interface IResponseLoginUserData {
+  user: Pick<IResponseRegisterUserData, 'email' | 'id'>;
+  token: string;
 }

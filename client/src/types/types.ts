@@ -15,3 +15,10 @@ export interface IResponseLoginUserData {
   user: Pick<IResponseRegisterUserData, 'email' | 'id'>;
   token: string;
 }
+
+export interface IUser {
+  id: number | null;
+  email: string;
+  password: string;
+  token: string;
+}

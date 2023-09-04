@@ -8,7 +8,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('port');
   app.setGlobalPrefix('api');
-  // app.enableCors();
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle('Budget Api')

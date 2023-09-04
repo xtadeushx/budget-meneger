@@ -17,8 +17,7 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { HttpCode } from 'src/common/enums/http/http-code';
-import { ApiPath, TransactionApiPath } from 'src/common/enums/enums';
+import { ApiPath, HttpCode, TransactionApiPath } from 'src/common/enums/enums';
 import { ResponseCreateTransactionDto } from './response/create-transaction.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 

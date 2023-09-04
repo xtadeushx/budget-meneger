@@ -6,6 +6,7 @@ import { Home } from "../pages/Home";
 import { Transactions } from "../pages/Transactions";
 import { ErrorPage } from "../pages/ErrorPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
+import { ProtectedRouts } from "../components/ProtectedRouts";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +24,17 @@ const router = createBrowserRouter([
       },
       {
         path: "categories",
-        element: <Categories />,
+        element:
+          <ProtectedRouts>
+            <Categories />
+          </ProtectedRouts>,
       },
       {
         path: "transactions",
-        element: <Transactions />,
+        element:
+          <ProtectedRouts>
+            <Transactions />
+          </ProtectedRouts>,
       },
       {
         path: "*",

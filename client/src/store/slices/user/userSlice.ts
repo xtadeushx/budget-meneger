@@ -3,13 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { IUser } from '../../../types/types';
 
-interface IUserProperty {
-  user: IUser;
+export interface IUserProperty {
+  user: IUser | null;
   isAuth: boolean;
 }
 
 const initialState: IUserProperty = {
-  user: { id: null, email: '', password: '', token: '' },
+  user: null,
   isAuth: false,
 };
 
@@ -17,16 +17,19 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<IUserProperty>) => {
+    login: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
       state.isAuth = true;
+    },
+    logOut: (state) => {
+      state.user = null;
+      state.isAuth = false;
     },
   },
 });
 
-export const { login } = userSlice.actions;
+export const { login, logOut } = userSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
 export const selectUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;

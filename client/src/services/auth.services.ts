@@ -1,10 +1,6 @@
 import { instance } from '../api/axios.api';
 import { ApiPath, AuthApiPath } from '../common/enums/enums';
-import {
-  IResponseLoginUserData,
-  IResponseRegisterUserData,
-  IUserData,
-} from '../types/types';
+import { IResponseRegisterUserData, IUser, IUserData } from '../types/types';
 
 class AuthServices {
   constructor() {}
@@ -16,14 +12,19 @@ class AuthServices {
     );
     return data;
   }
-  async login(userData: IUserData): Promise<IResponseLoginUserData> {
-    const { data } = await instance.post<IResponseLoginUserData>(
+  async login(userData: IUserData): Promise<IUser> {
+    const { data } = await instance.post<IUser>(
       `${ApiPath.AUTH}/${AuthApiPath.LOGIN}`,
       userData,
     );
     return data;
   }
-  async getMe() {}
+  async getProfile() {
+    const { data } = await instance.get<IUser>(
+      `${ApiPath.AUTH}/${AuthApiPath.PROFILE}`,
+    );
+    if (data) return data;
+  }
 }
 const authService = new AuthServices();
 export { authService };

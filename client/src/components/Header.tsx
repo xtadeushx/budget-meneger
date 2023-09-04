@@ -1,8 +1,20 @@
-import { Link, NavLink } from 'react-router-dom';
+import { useAuth, Link, NavLink, useNavigate, useDispatch } from '../hooks/hooks';
 import { FaBtc, FaSignOutAlt } from 'react-icons/fa';
+import { logOut } from '../store/slices/user/userSlice';
+import { removeTokenFromLocalStorage } from '../helpers/helpers';
 
 const Header: React.FC = () => {
-  const isAuth = false;
+  const isAuth = useAuth();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logOutHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(logOut());
+    removeTokenFromLocalStorage('token');
+    navigate('/auth')
+  };
+
   return (
     <header className='flex items-center  p-4 shadow-sm bg-slate-800 backdrop-blur-sm'>
       <Link to={'/'}>
@@ -28,7 +40,7 @@ const Header: React.FC = () => {
 
       {isAuth ?
         (
-          <button className='btn btn-red hover: bg-rose-800 px-2 py-1' >
+          <button onClick={logOutHandler} className='btn btn-red hover: bg-rose-800 px-2 py-1' >
             <span>Log Out</span>
             <FaSignOutAlt />
           </button>

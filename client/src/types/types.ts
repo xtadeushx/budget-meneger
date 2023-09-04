@@ -12,12 +12,12 @@ export interface IResponseRegisterUserData {
 }
 
 export interface IResponseLoginUserData {
-  user: Pick<IResponseRegisterUserData, 'email' | 'id'>;
+  user: Pick<IResponseRegisterUserData, 'email' | 'id' | 'password'>;
   token: string;
 }
 
 export interface IUser {
-  id: number | null;
+  id: number;
   email: string;
   password: string;
   token: string;

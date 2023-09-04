@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useState, useNavigate, useDispatch } from '../hooks/hooks';
 import { authService } from '../services/auth.services';
 import { ExceptionMessage } from '../common/enums/enums';
 import { toast } from 'react-toastify';
+import { login } from '../store/slices/user/userSlice';
+import { setTokenToLocalStorage } from '../helpers/helpers';
+
 const Auth: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setLogin] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const registrationHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -14,7 +19,7 @@ const Auth: React.FC = () => {
       if (!data) throw new Error(ExceptionMessage.UNKNOWN_ERROR)
       toast.success('Registration Successfully')
       setLogin(!isLogin)
-      return data;
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const error = err.response?.data.message
@@ -27,7 +32,10 @@ const Auth: React.FC = () => {
       e.preventDefault();
       const data = await authService.login({ email, password })
       if (!data) throw new Error(ExceptionMessage.INCORRECT_EMAIL)
-      toast.success(' Successfully login')
+      setTokenToLocalStorage('token', data.token);
+      dispatch(login(data))
+      toast.success(' Successfully login');
+      navigate('/')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const error = err.response?.data.message
@@ -68,6 +76,7 @@ const Auth: React.FC = () => {
         }
       </div>
     </div>
+
   )
 }
 

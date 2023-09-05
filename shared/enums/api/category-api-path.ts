@@ -1,5 +1,5 @@
 enum CategoryApiPath {
-  CATEGORY = '/',
+  CATEGORY = '/category',
   $ID = '/:id',
 }
 

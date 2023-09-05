@@ -26,13 +26,14 @@
   }
 
   .container {
-    @apply max-w-[1000px]
+    @apply max-w-[1000px];
   }
 }
 
+
 @layer utilities {
   .btn-red {
-    @apply bg-red-900 px-2 py-1;
+    @apply bg-red-900 px-4 py-2;
   }
 
   .btn-green {

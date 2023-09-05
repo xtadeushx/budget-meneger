@@ -25,7 +25,7 @@ const Auth: React.FC = () => {
       const error = err.response?.data.message
       toast.error(error?.toString());
     }
-  }
+  };
 
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -41,7 +41,7 @@ const Auth: React.FC = () => {
       const error = err.response?.data.message
       toast.error(error?.toString());
     }
-  }
+  };
 
   return (
     < div className='mt-40 flex flex-col justify-center items-center bg-slate-900 text-white' >

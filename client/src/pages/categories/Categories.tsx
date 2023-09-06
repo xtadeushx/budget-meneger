@@ -2,7 +2,7 @@ import { useLoaderData } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 import { CategoryModal } from '../../components/CategoryModal';
 import { useState } from '../../hooks/hooks';
-import { CategoryItem } from './item/CategoryItem';
+import { CategoryItem } from './components/item/CategoryItem';
 import { ICategoryItem } from './types';
 
 const Categories: React.FC = () => {

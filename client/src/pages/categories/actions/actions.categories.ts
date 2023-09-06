@@ -1,12 +1,10 @@
 import { ActionFunction } from 'react-router-dom';
 import { instance } from '../../../api/axios.api';
-import { ApiPath, CategoryApiPath } from '../../../common/enums/enums';
-
-enum ActionMethods {
-  POST = 'POST',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
-}
+import {
+  ActionMethods,
+  ApiPath,
+  CategoryApiPath,
+} from '../../../common/enums/enums';
 
 const categoryActions: ActionFunction = async ({ request }) => {
   switch (request.method) {

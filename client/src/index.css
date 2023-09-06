@@ -18,7 +18,7 @@
 
 @layer component {
   .btn {
-    @apply flex gap-2 items-center text-white py-2 px-4 rounded-md;
+    @apply flex gap-2 items-center text-white px-4 py-2 rounded-md;
   }
 
   .custom-input {

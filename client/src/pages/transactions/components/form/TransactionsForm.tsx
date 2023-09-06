@@ -1,20 +1,30 @@
-import { Form, useLoaderData } from "react-router-dom"
-import { Input } from "../../../../components/UI/input/input"
-import { Select } from "../../../../components/UI/select/select"
-import { FaPlus } from 'react-icons/fa'
+import { Form, useLoaderData } from "react-router-dom";
+import { FaPlus } from 'react-icons/fa';
+import { Input } from "../../../../components/UI/input/input";
+import { Select } from "../../../../components/UI/select/select";
 import { ITransactionsLoaderResponse } from "../../types";
 import { useState } from "../../../../hooks/hooks";
 import { CategoryModal } from "../../../../components/CategoryModal";
+import { ActionMethods, ApiPath } from "../../../../common/enums/enums";
 
 
 
 const TransactionsForm: React.FC = () => {
   const { categories } = useLoaderData() as ITransactionsLoaderResponse
   const [visibleModal, setVisibleModal] = useState(false);
+  const [categoryId, setCategoryId] = useState(categories[0].id)
+  const handelCategoryId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const category = categories.find(option => option.title === event.target.value);
+    if (category) setCategoryId(+category.id)
+  };
 
   return (
     <div className="rounded-md bg-slate-800 p-4">
-      <Form className="grid gap-2" action="/transactions" method="post">
+      <Form
+        className="grid gap-2"
+        action={`/${ApiPath.TRANSACTIONS}`}
+        method={`${ActionMethods.POST}`}
+      >
         <Input
           name="title"
           type="text"
@@ -34,10 +44,14 @@ const TransactionsForm: React.FC = () => {
             name="category"
             optionList={categories}
             title="Category"
+            onChange={handelCategoryId}
             required
           /> :
           <h1 className="mt-1 text-red-400">To continue first create a category</h1>
         }
+
+        <input type="hidden" name="categoryId" value={categoryId} />
+
         <button
           onClick={() => setVisibleModal(true)}
           className="flex mt-2 max-w-fit items-start gap-2 text-white/50 hover:text-white">
@@ -61,7 +75,7 @@ const TransactionsForm: React.FC = () => {
         </button>
       </Form>
       {visibleModal && <CategoryModal type={'post'} setVisibleModal={setVisibleModal} />}
-    </div>
+    </div >
   )
 }
 

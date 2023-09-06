@@ -38,7 +38,7 @@ export class TransactionController {
     @Req() req,
   ): Promise<ResponseCreateTransactionDto> {
     const { id } = req.user;
-    return this.transactionService.create(createTransactionDto, +id);
+    return this.transactionService.create(createTransactionDto, id);
   }
   @ApiTags('API')
   @Get(':type/find')

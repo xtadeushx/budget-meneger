@@ -4,6 +4,6 @@ export type TSelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   name: string;
   optionList: ICategoryItem[];
   value?: string;
-  onchange?: () => void;
+  onchange?: (e: Event) => void;
   title: string;
 };

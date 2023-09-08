@@ -1,5 +1,9 @@
 import { ActionFunction } from 'react-router-dom';
-import { ActionMethods, ApiPath } from '../../../common/enums/enums';
+import {
+  ActionMethods,
+  ApiPath,
+  TransactionApiPath,
+} from '../../../common/enums/enums';
 import { instance } from '../../../api/axios.api';
 import { toast } from 'react-toastify';
 
@@ -22,9 +26,17 @@ const transactionsActions: ActionFunction = async ({ request }) => {
       return null;
     }
     case ActionMethods.PATCH: {
+      toast.success('Transaction was updated successfully');
+
       return null;
     }
     case ActionMethods.DELETE: {
+      const formDate = await request.formData();
+      const transactionId = formDate.get('id');
+      await instance.delete(
+        `${ApiPath.TRANSACTIONS}${TransactionApiPath.TRANSACTION}/${transactionId}`,
+      );
+      toast.success('Transaction was deleted successfully');
       return null;
     }
     default:

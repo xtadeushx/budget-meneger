@@ -5,6 +5,7 @@ import {
   ApiPath,
   CategoryApiPath,
 } from '../../../common/enums/enums';
+import { toast } from 'react-toastify';
 
 const categoryActions: ActionFunction = async ({ request }) => {
   switch (request.method) {
@@ -14,6 +15,7 @@ const categoryActions: ActionFunction = async ({ request }) => {
         title: formData.get('title'),
       };
       await instance.post(`${ApiPath.CATEGORIES}`, category);
+      toast.success('Category was added successfully');
       return null;
     }
 
@@ -27,6 +29,7 @@ const categoryActions: ActionFunction = async ({ request }) => {
         `${ApiPath.CATEGORIES}${CategoryApiPath.CATEGORY}/${category.id}`,
         category,
       );
+      toast.success('Category was updated successfully');
       return null;
     }
 
@@ -37,6 +40,7 @@ const categoryActions: ActionFunction = async ({ request }) => {
       await instance.delete(
         `${ApiPath.CATEGORIES}${CategoryApiPath.CATEGORY}/${categoryId}`,
       );
+      toast.success('Category was deleted successfully');
       return null;
     }
     default:

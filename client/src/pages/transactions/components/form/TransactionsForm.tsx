@@ -3,19 +3,25 @@ import { FaPlus } from 'react-icons/fa';
 import { Input } from "../../../../components/UI/input/input";
 import { Select } from "../../../../components/UI/select/select";
 import { ITransactionsLoaderResponse } from "../../types";
-import { useState } from "../../../../hooks/hooks";
+import { useState, useRef } from "../../../../hooks/hooks";
 import { CategoryModal } from "../../../../components/CategoryModal";
 import { ActionMethods, ApiPath } from "../../../../common/enums/enums";
+import { RadioButton, } from "./components/radioButtons/RadioButtons";
+import { radioButtonsData } from "./constants/constants";
 
 
 
 const TransactionsForm: React.FC = () => {
-  const { categories } = useLoaderData() as ITransactionsLoaderResponse
+  const { categories } = useLoaderData() as ITransactionsLoaderResponse;
+
   const [visibleModal, setVisibleModal] = useState(false);
-  const [categoryId, setCategoryId] = useState(categories[0].id)
+  const [categoryId, setCategoryId] = useState(categories[0].id);
+
+  const formRef = useRef<HTMLFormElement | null>(null);
+
   const handelCategoryId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = categories.find(option => option.title === event.target.value);
-    if (category) setCategoryId(+category.id)
+    if (category) setCategoryId(+category.id);
   };
 
   return (
@@ -24,6 +30,11 @@ const TransactionsForm: React.FC = () => {
         className="grid gap-2"
         action={`/${ApiPath.TRANSACTIONS}`}
         method={`${ActionMethods.POST}`}
+        ref={formRef}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (formRef.current) formRef.current.reset();
+        }}
       >
         <Input
           name="title"
@@ -60,14 +71,15 @@ const TransactionsForm: React.FC = () => {
         </button>
         {/* Radio buttons */}
         <div className="flex gap-4 items-center">
-          <label className="cursor-pointer flex items-center gap-2">
-            <input type="radio" name="type" value={'income'} className="form-radio text-blue-600" />
-            <span>Income</span>
-          </label>
-          <label className="cursor-pointer flex items-center gap-2">
-            <input type="radio" name="type" value={'expense'} className="form-radio text-blue-600" />
-            <span>Expense</span>
-          </label>
+          {radioButtonsData.length > 0 && radioButtonsData.map(btn => (
+            <RadioButton
+              key={btn.id}
+              name={btn.name}
+              text={btn.text}
+              value={btn.value}
+              checked={btn.checked}
+            />
+          ))}
         </div>
         {/* Submit button */}
         <button className="btn btn-green max-w-fit mt-2 hover:bg-green-700 transition-all ease-in duration-600" type="submit">

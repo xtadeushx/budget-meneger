@@ -3,10 +3,10 @@ interface IRadioButtonProps {
   name: string,
   value: string,
   text: string
-  checked: boolean
+
 }
 
-const RadioButton: React.FC<IRadioButtonProps> = ({ name, value, text, checked }) => {
+const RadioButton: React.FC<IRadioButtonProps> = ({ name, value, text }) => {
   return (
     <label className="cursor-pointer flex items-center gap-2">
       <input
@@ -14,10 +14,9 @@ const RadioButton: React.FC<IRadioButtonProps> = ({ name, value, text, checked }
         name={name}
         value={value}
         className="form-radio text-blue-600"
-        checked={checked} />
+      />
       <span>{text}</span>
     </label>
-
   )
 }
 

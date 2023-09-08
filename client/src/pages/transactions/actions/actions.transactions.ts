@@ -25,11 +25,6 @@ const transactionsActions: ActionFunction = async ({ request }) => {
       toast.success('Transaction added successfully');
       return null;
     }
-    case ActionMethods.PATCH: {
-      toast.success('Transaction was updated successfully');
-
-      return null;
-    }
     case ActionMethods.DELETE: {
       const formDate = await request.formData();
       const transactionId = formDate.get('id');

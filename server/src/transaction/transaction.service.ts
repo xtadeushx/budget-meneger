@@ -101,7 +101,6 @@ export class TransactionService {
       },
       relations: {
         category: true,
-        user: true,
       },
       take: limit,
       skip: (page - 1) * limit,

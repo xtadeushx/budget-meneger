@@ -31,10 +31,7 @@ const TransactionsForm: React.FC = () => {
         action={`/${ApiPath.TRANSACTIONS}`}
         method={`${ActionMethods.POST}`}
         ref={formRef}
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (formRef.current) formRef.current.reset();
-        }}
+
       >
         <Input
           name="title"
@@ -77,7 +74,7 @@ const TransactionsForm: React.FC = () => {
               name={btn.name}
               text={btn.text}
               value={btn.value}
-              checked={btn.checked}
+
             />
           ))}
         </div>

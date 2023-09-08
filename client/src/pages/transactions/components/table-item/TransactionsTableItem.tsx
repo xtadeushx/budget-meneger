@@ -1,23 +1,33 @@
 import { FaTrash } from "react-icons/fa"
 import { ITransactionItem } from "../../types"
-import { formatDateShort } from "../../../../helpers/date/date-helper"
+import { formateDate } from "../../../../helpers/date/date.helper"
 import { Form } from "react-router-dom"
 import { ApiPath } from "../../../../common/enums/enums"
+import { formatToUSD } from "../../../../helpers/helpers"
 
 interface ITransactionItemProps extends ITransactionItem {
   ind: number
   category: string
 }
 
-const TransactionsTableItem: React.FC<ITransactionItemProps> = ({id, ind, title, amount, createAt, category }) => {
+const TransactionsTableItem: React.FC<ITransactionItemProps> = ({
+  type, id, ind, title, amount, createAt, category
+}) => {
   return (
     <>
       <tr>
         <td>{ind + 1}</td>
         <td>{title}</td>
-        <td>{amount}</td>
+        <td className={
+          type === 'income'
+            ? 'text-green-500'
+            : 'text-red-500'}>
+          {type === 'income'
+            ? `+ ${formatToUSD.format(amount)}`
+            : `- ${formatToUSD.format(amount)}`}
+        </td>
         <td>{category}</td>
-        <td>{formatDateShort(createAt)}</td>
+        <td>{formateDate(createAt)}</td>
         <td>
           <Form className='flex' method='DELETE' action={`/${ApiPath.TRANSACTIONS}`}>
             <input type="hidden" name='id' value={id} />

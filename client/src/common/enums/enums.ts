@@ -1,4 +1,4 @@
-export { HttpCode } from './http/http';
+export { HttpCode, ActionMethods } from './http/http';
 export { ExceptionName, ExceptionMessage } from './exception/exception';
 export {
   ApiPath,

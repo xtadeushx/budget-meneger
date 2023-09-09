@@ -1,7 +1,10 @@
 enum TransactionApiPath {
-  TRANSACTION = '/',
+  TRANSACTION = '/transaction',
   $ID = '/:id',
-  PAGINATION = 'pagination',
+  PAGINATION = '/pagination',
+  FIND = '/find',
+  INCOME = '/income',
+  EXPENSE = '/expense',
 }
 
 export { TransactionApiPath };

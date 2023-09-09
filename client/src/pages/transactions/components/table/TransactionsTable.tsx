@@ -1,37 +1,14 @@
-import { useLoaderData } from "react-router-dom";
-import { ITransactionItem, ITransactionsLoaderResponse } from "../../types";
-import TransactionsTableItem from "../table-item/TransactionsTableItem";
-import { useEffect, useState } from "react";
-import { ApiPath, TransactionApiPath } from "../../../../common/enums/enums";
-import { instance } from "../../../../api/axios.api";
 import ReactPaginate from "react-paginate";
+import TransactionsTableItem from "../table-item/TransactionsTableItem";
+import { useTransactionsPagination } from "../../hooks/hook.transactions";
 
 interface ITransactionsTableProps {
   limit: number;
 }
 
 const TransactionsTable: React.FC<ITransactionsTableProps> = ({ limit = 3 }) => {
-  const { transactions } = useLoaderData() as ITransactionsLoaderResponse
 
-  const [transactionsData, setTransactionsData] = useState<ITransactionItem[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-
-  useEffect(() => {
-    const handlePagination = async () => {
-      try {
-        const { data } = await instance.get(`${ApiPath.TRANSACTIONS}${TransactionApiPath.PAGINATION}?page=${currentPage}&limit=${limit}`)
-        if (data) setTransactionsData(data)
-        setTotalPages(transactions.length / limit)
-      } catch (error) {
-        console.error(error);
-      }
-
-    }
-
-    handlePagination()
-
-  }, [totalPages, currentPage, limit]);
+  const { setCurrentPage, transactionsData, totalPages } = useTransactionsPagination(limit)
 
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected + 1);

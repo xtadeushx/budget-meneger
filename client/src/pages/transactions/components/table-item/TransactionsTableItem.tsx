@@ -1,5 +1,5 @@
 import { FaTrash } from "react-icons/fa"
-import { ITransactionItem } from "../../types"
+import { ITransactionItem } from "../../types/types"
 import { formateDate } from "../../../../helpers/date/date.helper"
 import { Form } from "react-router-dom"
 import { ApiPath } from "../../../../common/enums/enums"

@@ -1,6 +1,10 @@
+import { useLoaderData } from "react-router-dom";
+import { ITransactionsLoaderResponse } from "../../types/types";
+import { formatToUSD } from "../../../../helpers/helpers";
+import { Chart } from "../chart/Chart";
 
 const TransactionsStatistic: React.FC = () => {
-
+  const { totalExpense, totalIncome } = useLoaderData() as ITransactionsLoaderResponse;
   return (
     <div className="rounded-md bg-slate-800 p-3">
       <div className="grid col-span-2 gap-3">
@@ -9,7 +13,7 @@ const TransactionsStatistic: React.FC = () => {
             Total income
           </p>
           <p className="bg-green-600 p-1 rounded-sm text-center mt-2">
-            1000$
+            {formatToUSD.format(totalIncome)}
           </p>
         </div>
         <div>
@@ -17,9 +21,10 @@ const TransactionsStatistic: React.FC = () => {
             Total expense
           </p>
           <p className="bg-red-500 p-1 rounded-sm text-center mt-2">
-            500$
+            {formatToUSD.format(totalExpense)}
           </p>
         </div>
+        <Chart totalExpense={totalExpense} totalIncome={totalIncome} />
       </div>
     </div>
   )

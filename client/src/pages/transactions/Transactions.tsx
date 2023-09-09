@@ -15,7 +15,7 @@ const Transactions: React.FC = () => {
       </div>
       {/* Transaction */}
       <div className="my5">
-        <TransactionsTable limit={2} />
+        <TransactionsTable limit={3} />
       </div>
     </>
   )

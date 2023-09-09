@@ -2,7 +2,7 @@ import { Form, useLoaderData } from "react-router-dom";
 import { FaPlus } from 'react-icons/fa';
 import { Input } from "../../../../components/UI/input/input";
 import { Select } from "../../../../components/UI/select/select";
-import { ITransactionsLoaderResponse } from "../../types";
+import { ITransactionsLoaderResponse } from "../../types/types";
 import { useState, useRef } from "../../../../hooks/hooks";
 import { CategoryModal } from "../../../../components/CategoryModal";
 import { ActionMethods, ApiPath } from "../../../../common/enums/enums";
@@ -74,7 +74,6 @@ const TransactionsForm: React.FC = () => {
               name={btn.name}
               text={btn.text}
               value={btn.value}
-
             />
           ))}
         </div>

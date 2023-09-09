@@ -25,7 +25,7 @@ const TransactionsForm: React.FC = () => {
   };
 
   return (
-    <div className="rounded-md bg-slate-800 p-4">
+    <div className="rounded-md bg-slate-500 dark:bg-slate-800 p-4">
       <Form
         className="grid gap-2"
         action={`/${ApiPath.TRANSACTIONS}`}

@@ -6,8 +6,10 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux'
 import { store } from './store/store.ts'
+import { ThemeProvider } from './context/ThemeContext/index.tsx'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+
     <Provider store={store}>
       <ToastContainer position="top-right"
         autoClose={3000}
@@ -20,7 +22,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         pauseOnHover
         theme="light"
       />
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </Provider>
 
   </React.StrictMode>,

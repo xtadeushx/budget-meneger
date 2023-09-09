@@ -6,6 +6,8 @@ import { getTokenFromLocalStorage } from './helpers/helpers';
 import { authService } from './services/auth.services';
 import { logOut, login } from './store/slices/user/userSlice';
 import { useEffect } from './hooks/hooks';
+import { ThemeContext } from './context/ThemeContext';
+import { useContext } from 'react';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,13 +28,16 @@ function App() {
       toast.error(error?.toString());
     }
   };
+  const { theme } = useContext(ThemeContext)
 
   useEffect(() => {
     checkAuth();
   }, [])
   return (
     <>
-      <RouterProvider router={router} />
+      <div className={`${theme === 'dark' ? 'dark' : 'light'}`}>
+        <RouterProvider router={router} />
+      </div>
     </>
   );
 }

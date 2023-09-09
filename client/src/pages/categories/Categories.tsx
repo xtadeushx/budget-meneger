@@ -19,7 +19,7 @@ const Categories: React.FC = () => {
 
   return (
     <>
-      <div className="mt-10 p-4 rounded-md bg-slate-800">
+      <div className="mt-10 p-4 rounded-md bg-slate-500 dark:bg-slate-800">
         <h1>
           Your category list
         </h1>

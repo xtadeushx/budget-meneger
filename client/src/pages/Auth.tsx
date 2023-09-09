@@ -44,7 +44,7 @@ const Auth: React.FC = () => {
   };
 
   return (
-    < div className='mt-40 flex flex-col justify-center items-center bg-slate-900 text-white' >
+    < div className='mt-40 flex flex-col justify-center items-center bg-gray-400 text-slate-900 dark:bg-slate-900 dark:text-white' >
       <h1 className='text-center text-xl mb-10'>
         {isLogin ? 'Login' : 'Registration'}
       </h1>
@@ -52,13 +52,13 @@ const Auth: React.FC = () => {
         <input
           type="email"
           name="email"
-          className='bg-transparent border bg-slate-700 border-slate-800 rounded-md outline-none placeholder:text-white' placeholder='Email'
+          className='bg-transparent border bg-gray-400  placeholder:text-slate-700  dark:bg-slate-700 dark:border-slate-800 rounded-md outline-none dark:placeholder:text-white' placeholder='Email'
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           name="password"
-          className='bg-transparent border bg-slate-700 border-slate-800 rounded-md outline-none placeholder:text-white' placeholder='Password'
+          className='bg-transparent border bg-gray-400  placeholder:text-slate-700  dark:bg-slate-700 dark:border-slate-800 rounded-md outline-none dark:placeholder:text-white' placeholder='Email'
           onChange={(e) => setPassword(e.target.value)}
         />
         <button className='btn btn-green mx-auto hover:bg-green-800'>
@@ -67,10 +67,10 @@ const Auth: React.FC = () => {
       </form>
       <div className="flex justify-center mt-5">
         {isLogin ? (
-          <button onClick={() => setLogin(!isLogin)} className='text-slate-300 hover:text-white'>
+          <button onClick={() => setLogin(!isLogin)} className=' text-slate-700 dark:text-slate-300 hover:text-white'>
             You don't have an account?
           </button>) : (
-          <button onClick={() => setLogin(!isLogin)} className='text-slate-300 hover:text-white'>
+          <button onClick={() => setLogin(!isLogin)} className='text-slate-700 dark:text-slate-300 hover:text-white'>
             Already have an account?
           </button>)
         }

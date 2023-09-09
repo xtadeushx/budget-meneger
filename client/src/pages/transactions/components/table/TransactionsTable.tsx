@@ -20,8 +20,8 @@ const TransactionsTable: React.FC<ITransactionsTableProps> = ({ limit = 3 }) => 
         className="flex gap-3 justify-end mt-4 items-center"
         activeClassName="bg-blue-600 rounded-sm"
         pageLinkClassName="text-white text-xs py-1 px-2 rounded-sm"
-        previousClassName="text-white  py-1 px-2 bg-slate-800  text-xs rounded-sm"
-        nextClassName="text-white  py-1 px-2 bg-slate-800  text-xs rounded-sm"
+        previousClassName="text-white  py-1 px-2 bg-slate-500 dark:bg-slate-800  text-xs rounded-sm"
+        nextClassName="text-white  py-1 px-2 bg-slate-500 dark:bg-slate-800  text-xs rounded-sm"
         disabledClassName="text-white/50 cursor-not-allowed"
         onPageChange={handlePageClick}
         pageRangeDisplayed={1}
@@ -29,7 +29,7 @@ const TransactionsTable: React.FC<ITransactionsTableProps> = ({ limit = 3 }) => 
         pageCount={totalPages}
         renderOnZeroPageCount={null}
       />
-      <div className="bg-slate-800 px-4 py-3 mt-4 rounded-md">
+      <div className="bg-slate-500 dark:bg-slate-800 px-4 py-3 mt-4 rounded-md">
         <table className="w-full">
           <thead>
             <tr>

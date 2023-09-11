@@ -7,7 +7,7 @@ import { Transactions } from "../pages/transactions/Transactions";
 import { ErrorPage } from "../pages/ErrorPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { ProtectedRouts } from "../components/ProtectedRouts";
-import { categoryActions } from "../pages/categories/actions/actions.categories";
+// import { categoryActions } from "../pages/categories/actions/actions.categories";
 import { categoriesLoader } from "../pages/categories/loader/loader.categories";
 import { transactionsLoader } from "../pages/transactions/loader/loader.transactions";
 import { transactionsActions } from "../pages/transactions/actions/actions.transactions";
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: "categories",
-        action: categoryActions,
+        // action: categoryActions,
         loader: categoriesLoader,
         element:
           <ProtectedRouts>

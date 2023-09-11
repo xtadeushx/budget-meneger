@@ -1,20 +1,32 @@
-import { useLoaderData } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
-import { CategoryModal } from '../../components/CategoryModal';
+import { CategoryModalCreate } from '../../components/CategoryModalCreate';
 import { useState } from '../../hooks/hooks';
 import { CategoryItem } from './components/item/CategoryItem';
-import { ICategoryItem } from './types';
+// import { ICategoryItem } from './types';
+import { useQuery } from 'react-query';
+import { categoryService } from '../../services/category.service';
+import { CategoryModalEdit } from '../../components/CategoryModalEdit';
 
 const Categories: React.FC = () => {
   const [visibleModal, setVisibleModal] = useState(false);
   const [categoryId, setCategoryId] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
 
-  const categories = useLoaderData() as ICategoryItem[];
+  const categories = useQuery('categories', categoryService.getAllCategories);
+
+  // Mutations
 
   const handelCreateCategory = (): void => {
     setVisibleModal(true);
     setIsEdit(false);
+  }
+
+  if (categories.isLoading && !categories.data) {
+    <p>Loading...</p>
+  }
+
+  if (categories.error && !categories.data) {
+    <p className='text-lg text-red-500'>Some error was accrued</p>
   }
 
   return (
@@ -25,7 +37,7 @@ const Categories: React.FC = () => {
         </h1>
         {/* Category list */}
         <div className="flex mt-2 flex-wrap items-center gap-2">
-          {categories.length > 0 && categories.map((category) =>
+          {categories.data && categories.data?.length > 0 && categories.data?.map((category) =>
           (<CategoryItem
             key={category.id}
             category={category}
@@ -44,9 +56,9 @@ const Categories: React.FC = () => {
         </button>
       </div >
       {/* Add category modal */}
-      {!isEdit && visibleModal && <CategoryModal type={'post'} setVisibleModal={setVisibleModal} />}
+      {!isEdit && visibleModal && <CategoryModalCreate type={'post'} setVisibleModal={setVisibleModal} />}
       {/* Edit category modal */}
-      {isEdit && visibleModal && <CategoryModal type={'patch'} id={categoryId} setVisibleModal={setVisibleModal} />}
+      {isEdit && visibleModal && <CategoryModalEdit type={'patch'} id={categoryId} setVisibleModal={setVisibleModal} />}
     </>
   )
 }

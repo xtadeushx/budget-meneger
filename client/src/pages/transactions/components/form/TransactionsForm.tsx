@@ -1,26 +1,32 @@
-import { Form, useLoaderData } from "react-router-dom";
+import { Form } from "react-router-dom";
 import { FaPlus } from 'react-icons/fa';
 import { Input } from "../../../../components/UI/input/input";
 import { Select } from "../../../../components/UI/select/select";
-import { ITransactionsLoaderResponse } from "../../types/types";
 import { useState, useRef } from "../../../../hooks/hooks";
-import { CategoryModal } from "../../../../components/CategoryModal";
+import { CategoryModalCreate } from "../../../../components/CategoryModalCreate";
 import { ActionMethods, ApiPath } from "../../../../common/enums/enums";
 import { RadioButton, } from "./components/radioButtons/RadioButtons";
 import { radioButtonsData } from "./constants/constants";
+import { useQuery } from "react-query";
+import { categoryService } from "../../../../services/category.service";
 
 
 
 const TransactionsForm: React.FC = () => {
-  const { categories } = useLoaderData() as ITransactionsLoaderResponse;
-
   const [visibleModal, setVisibleModal] = useState(false);
-  const [categoryId, setCategoryId] = useState(categories[0].id);
+  const [categoryId, setCategoryId] = useState(0);
 
   const formRef = useRef<HTMLFormElement | null>(null);
+  // const { categories } = useLoaderData() as ITransactionsLoaderResponse;
+  const categories = useQuery('categories', categoryService.getAllCategories);
+  if (!categories.data && categories.isLoading) {
+    return <p>Loading</p>;
+  }
+
 
   const handelCategoryId = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const category = categories.find(option => option.title === event.target.value);
+    if (!categories.data) return
+    const category = categories?.data.find(option => option.title === event.target.value);
     if (category) setCategoryId(+category.id);
   };
 
@@ -47,10 +53,10 @@ const TransactionsForm: React.FC = () => {
           text="Amount"
           placeholder="Amount..."
         />
-        {categories.length > 0 ?
+        {categories?.data && categories?.data.length > 0 ?
           <Select
             name="category"
-            optionList={categories}
+            optionList={categories.data}
             title="Category"
             onChange={handelCategoryId}
             required
@@ -82,7 +88,7 @@ const TransactionsForm: React.FC = () => {
           Submit
         </button>
       </Form>
-      {visibleModal && <CategoryModal type={'post'} setVisibleModal={setVisibleModal} />}
+      {visibleModal && <CategoryModalCreate type={'post'} setVisibleModal={setVisibleModal} />}
     </div >
   )
 }

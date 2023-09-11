@@ -2,7 +2,8 @@ import React from 'react'
 import { AiFillEdit, AiFillCloseCircle } from 'react-icons/ai'
 import { Form } from 'react-router-dom';
 import { ICategoryItem } from '../../types';
-import { ApiPath } from '../../../../common/enums/enums';
+import { useMutation } from 'react-query';
+import { categoryService } from '../../../../services/category.service';
 
 interface ICategoryItemProps {
   category: ICategoryItem,
@@ -14,13 +15,17 @@ interface ICategoryItemProps {
 
 
 const CategoryItem: React.FC<ICategoryItemProps> = ({ category, setCategoryId, setVisibleModal, setIsEdit }) => {
-
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const deleteCategory = useMutation((id: number) => {
+    return categoryService.removeCategory(id);
+  });
   const handelEditCategory = () => {
     setCategoryId(id);
     setVisibleModal(true);
     setIsEdit(true);
   }
   const { title, id } = category;
+
   return (
     <>
       <div className="group px-4 py-2 rounded-md bg-blue-600 flex items-center relative gap-2 capitalize">
@@ -30,8 +35,7 @@ const CategoryItem: React.FC<ICategoryItemProps> = ({ category, setCategoryId, s
             <AiFillEdit />
           </button>
 
-          <Form className='flex' method='DELETE' action={`/${ApiPath.CATEGORIES}`}>
-            <input type="hidden" name='id' value={id} />
+          <Form className='flex' onSubmit={() => deleteCategory.mutate(id)}>
             <button type='submit'>
               <AiFillCloseCircle />
             </button>

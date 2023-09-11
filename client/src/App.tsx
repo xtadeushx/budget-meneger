@@ -7,11 +7,12 @@ import { useEffect } from './hooks/hooks';
 import { ThemeContext } from './context/ThemeContext';
 import { useContext } from 'react';
 import { useUserStore } from './zustand/store';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 function App() {
   const login = useUserStore((state) => state.login)
   const logOut = useUserStore((state) => state.logOut)
-
+  const queryClient = new QueryClient()
   const checkAuth = async () => {
     const token = getTokenFromLocalStorage();
     try {
@@ -36,9 +37,11 @@ function App() {
   }, [])
   return (
     <>
-      <div className={`${theme === 'dark' ? 'dark' : 'light'}`}>
-        <RouterProvider router={router} />
-      </div>
+      <QueryClientProvider client={queryClient}>
+        <div className={`${theme === 'dark' ? 'dark' : 'light'}`}>
+          <RouterProvider router={router} />
+        </div>
+      </QueryClientProvider>
     </>
   );
 }

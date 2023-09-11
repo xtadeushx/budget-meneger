@@ -1,5 +1,5 @@
 import { useState, useNavigate } from '../hooks/hooks';
-import { authService } from '../services/auth.services';
+import { authService } from '../services/auth.service';
 import { ExceptionMessage } from '../common/enums/enums';
 import { toast } from 'react-toastify';
 // import { login } from '../store/slices/user/userSlice';

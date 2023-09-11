@@ -2,7 +2,7 @@ import { instance } from '../api/axios.api';
 import { ApiPath, AuthApiPath } from '../common/enums/enums';
 import { IResponseRegisterUserData, IUser, IUserData } from '../types/types';
 
-class AuthServices {
+class AuthService {
   constructor() {}
 
   async registration(userData: IUserData): Promise<IResponseRegisterUserData> {
@@ -26,5 +26,5 @@ class AuthServices {
     if (data) return data;
   }
 }
-const authService = new AuthServices();
+const authService = new AuthService();
 export { authService };

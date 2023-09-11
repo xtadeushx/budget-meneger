@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { router } from './router/router';
 import { getTokenFromLocalStorage } from './helpers/helpers';
-import { authService } from './services/auth.services';
+import { authService } from './services/auth.service';
 import { useEffect } from './hooks/hooks';
 import { ThemeContext } from './context/ThemeContext';
 import { useContext } from 'react';

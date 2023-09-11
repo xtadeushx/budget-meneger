@@ -1,22 +1,24 @@
-import { useAuth, Link, NavLink, useNavigate, useDispatch } from '../hooks/hooks';
+import { useAuth, Link, NavLink, useNavigate } from '../hooks/hooks';
 import { FaBtc, FaSignOutAlt } from 'react-icons/fa';
-import { logOut } from '../store/slices/user/userSlice';
+// import { logOut } from '../store/slices/user/userSlice';
 import { removeTokenFromLocalStorage } from '../helpers/helpers';
 import { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
+import { useUserStore } from '../zustand/store';
 
 
 
 const Header: React.FC = () => {
+  const logOut = useUserStore((state) => state.logOut)
   const isAuth = useAuth();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { toggle } = useContext(ThemeContext);
 
   const logOutHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(logOut());
+    logOut();
     removeTokenFromLocalStorage('token');
     navigate('/auth')
   };

@@ -1,16 +1,17 @@
-import { useState, useNavigate, useDispatch } from '../hooks/hooks';
+import { useState, useNavigate } from '../hooks/hooks';
 import { authService } from '../services/auth.services';
 import { ExceptionMessage } from '../common/enums/enums';
 import { toast } from 'react-toastify';
-import { login } from '../store/slices/user/userSlice';
+// import { login } from '../store/slices/user/userSlice';
 import { setTokenToLocalStorage } from '../helpers/helpers';
+import { useUserStore } from '../zustand/store';
 
 const Auth: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setLogin] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const login = useUserStore((state) => state.login)
 
   const registrationHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -33,7 +34,7 @@ const Auth: React.FC = () => {
       const data = await authService.login({ email, password })
       if (!data) throw new Error(ExceptionMessage.INCORRECT_EMAIL)
       setTokenToLocalStorage('token', data.token);
-      dispatch(login(data))
+      login(data)
       toast.success(' Successfully login');
       navigate('/')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

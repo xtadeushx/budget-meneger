@@ -1,25 +1,26 @@
 import { RouterProvider } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { router } from './router/router';
-import { useAppDispatch } from './store/hooks';
 import { getTokenFromLocalStorage } from './helpers/helpers';
 import { authService } from './services/auth.services';
-import { logOut, login } from './store/slices/user/userSlice';
 import { useEffect } from './hooks/hooks';
 import { ThemeContext } from './context/ThemeContext';
 import { useContext } from 'react';
+import { useUserStore } from './zustand/store';
 
 function App() {
-  const dispatch = useAppDispatch();
+  const login = useUserStore((state) => state.login)
+  const logOut = useUserStore((state) => state.logOut)
+
   const checkAuth = async () => {
     const token = getTokenFromLocalStorage();
     try {
       if (token) {
         const data = await authService.getProfile();
         if (data) {
-          dispatch(login(data));
+          login(data);
         } else {
-          dispatch(logOut());
+          logOut();
         }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

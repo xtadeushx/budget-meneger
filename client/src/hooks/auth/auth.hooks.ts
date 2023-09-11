@@ -1,7 +1,7 @@
-import { useAppSelector } from '../../store/hooks';
-
+import { useUserStore } from '../../zustand/store';
 const useAuth = (): boolean => {
-  const { isAuth } = useAppSelector((state) => state.user);
+  const isAuth = useUserStore((state) => state.isAuth);
+
   return isAuth;
 };
 
